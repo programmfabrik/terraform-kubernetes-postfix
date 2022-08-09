@@ -39,19 +39,19 @@ resource "kubernetes_deployment" "postfix" {
   metadata {
     name      = "postfix-${var.postfix}"
     namespace = var.namespace
-    labels    = var.labels
+    labels    = local.labels
   }
 
   spec {
     replicas = var.replicas
 
     selector {
-      match_labels = var.labels
+      match_labels = local.labels
     }
 
     template {
       metadata {
-        labels = var.labels
+        labels = local.labels
       }
 
       spec {
@@ -161,11 +161,11 @@ resource "kubernetes_deployment" "postfix" {
 
 resource "kubernetes_service" "postfix-service" {
   metadata {
-    name      = "postfix-${var.postfix}"
+    name      = "postfix-${var.name}"
     namespace = var.namespace
   }
   spec {
-    selector = var.labels
+    selector = local.labels
 
     port {
       port        = 25
