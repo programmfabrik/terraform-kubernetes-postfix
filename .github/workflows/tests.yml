@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - "**"
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".gitignore"
+      - "generate_doc.sh"
 
 env:
   terraform_version: "v1.2.6"
