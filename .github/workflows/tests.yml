@@ -74,6 +74,9 @@ jobs:
       - name: Print context
         run: kubectl config get-contexts
 
+      - name: Terraform init
+        run: terraform init
+
       - name: Deploy terraform
         working-directory: _example/
         run: terraform apply -auto-approve
