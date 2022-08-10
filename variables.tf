@@ -48,7 +48,7 @@ variable "image_version" {
 variable "image_pull_policy" {
   type        = string
   description = "Defines the image pull policy to use."
-  default     = "IfNotPresent"
+  default     = "Always"
   validation {
     condition     = var.image_pull_policy == "Always" || var.image_pull_policy == "IfNotPresent" || var.image_pull_policy == "Never"
     error_message = "Invalid image pull policy. Valid values are `Always`, `IfNotPresent` and `Never`."
