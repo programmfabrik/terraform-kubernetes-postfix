@@ -34,7 +34,7 @@ module "postfix" {
   postfix_relayhost                    = "smtp.gmail.com:587"
   postfix_myhostname                   = "mail"
   postfix_mynetworks                   = "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-  postfix_smtputf8_enable              = "on"
+  postfix_smtputf8_enable              = "yes"
   postfix_smtp_sasl_auth_enable        = "yes"
   postfix_smtp_sasl_password_maps      = "hash:/etc/postfix/sasl_passwd"
   postfix_smtp_sasl_security_options   = ""
@@ -109,7 +109,7 @@ No modules.
 | <a name="input_postfix_smtpd_helo_required"></a> [postfix\_smtpd\_helo\_required](#input\_postfix\_smtpd\_helo\_required) | n/a | `string` | `"yes"` | no |
 | <a name="input_postfix_smtpd_helo_restrictions"></a> [postfix\_smtpd\_helo\_restrictions](#input\_postfix\_smtpd\_helo\_restrictions) | n/a | `string` | `"permit_mynetworks,reject_invalid_helo_hostname,permit"` | no |
 | <a name="input_postfix_smtpd_recipient_restrictions"></a> [postfix\_smtpd\_recipient\_restrictions](#input\_postfix\_smtpd\_recipient\_restrictions) | n/a | `string` | `"reject_non_fqdn_recipient,reject_unknown_recipient_domain,reject_unverified_recipient"` | no |
-| <a name="input_postfix_smtputf8_enable"></a> [postfix\_smtputf8\_enable](#input\_postfix\_smtputf8\_enable) | n/a | `string` | `"no"` | no |
+| <a name="input_postfix_smtputf8_enable"></a> [postfix\_smtputf8\_enable](#input\_postfix\_smtputf8\_enable) | Can be 'yes' or 'no'. | `string` | `"no"` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | Defines the number of replicas. | `number` | `1` | no |
 | <a name="input_resources"></a> [resources](#input\_resources) | Defines the resources to use. | <pre>object({<br>    limits = object({<br>      cpu    = string<br>      memory = string<br>    })<br>    requests = object({<br>      cpu    = string<br>      memory = string<br>    })<br>  })</pre> | <pre>{<br>  "limits": {<br>    "cpu": "0.5",<br>    "memory": "512Mi"<br>  },<br>  "requests": {<br>    "cpu": "0.5",<br>    "memory": "512Mi"<br>  }<br>}</pre> | no |
 | <a name="input_wait_for_rollout"></a> [wait\_for\_rollout](#input\_wait\_for\_rollout) | Defines whether we should wait for the deployment to complete. | `bool` | `false` | no |

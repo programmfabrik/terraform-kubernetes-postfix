@@ -92,6 +92,7 @@ variable "postfix_mynetworks" {
 variable "postfix_smtputf8_enable" {
   type      = string
   default   = "no"
+  description = "Can be 'yes' or 'no'."
   sensitive = false
 }
 
