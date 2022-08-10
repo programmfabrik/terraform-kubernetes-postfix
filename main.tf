@@ -5,23 +5,24 @@ locals {
     "app.kubernetes.io/version" : "${var.image_version}",
     "app.kubernetes.io/component" : "mail",
   }
+  service_port = 25
 }
 
-resource "kubernetes_namespace" "postfix" {
+resource "kubernetes_namespace_v1" "postfix" {
   count = var.create_namespace ? 1 : 0
   metadata {
     name = var.namespace
   }
 }
 
-resource "kubernetes_secret" "sasl-config" {
+resource "kubernetes_secret_v1" "sasl-config" {
   metadata {
     name      = "postgres-${var.name}-sasl-config"
     namespace = var.namespace
   }
 
   data = {
-    sasl_passwd = templatefile("${path.module}/config/sasl_passwd", {
+    sasl_passwd = templatefile("${path.module}/files/sasl_passwd", {
       smtp_host = var.mail_smtp_host,
       smtp_port = var.mail_smtp_port,
       mail      = var.mail_email,
@@ -33,11 +34,11 @@ resource "kubernetes_secret" "sasl-config" {
 }
 
 # postfix deployment
-resource "kubernetes_deployment" "postfix" {
+resource "kubernetes_deployment_v1" "postfix" {
   wait_for_rollout = var.wait_for_rollout
 
   metadata {
-    name      = "postfix-${var.postfix}"
+    name      = "postfix-${var.name}"
     namespace = var.namespace
     labels    = local.labels
   }
@@ -74,6 +75,11 @@ resource "kubernetes_deployment" "postfix" {
             name       = "sasl-config"
             read_only  = false
             mount_path = "/postfix/sasl/"
+          }
+
+          port {
+            container_port = local.service_port
+            name           = "smtp"
           }
 
           # must be hardcoded
@@ -151,7 +157,7 @@ resource "kubernetes_deployment" "postfix" {
         volume {
           name = "sasl-config"
           secret {
-            secret_name = kubernetes_secret.sasl-config.metadata[0].name
+            secret_name = kubernetes_secret_v1.sasl-config.metadata[0].name
           }
         }
       }
@@ -159,7 +165,7 @@ resource "kubernetes_deployment" "postfix" {
   }
 }
 
-resource "kubernetes_service" "postfix-service" {
+resource "kubernetes_service_v1" "postfix-service" {
   metadata {
     name      = "postfix-${var.name}"
     namespace = var.namespace
@@ -168,10 +174,16 @@ resource "kubernetes_service" "postfix-service" {
     selector = local.labels
 
     port {
-      port        = 25
-      target_port = 25
+      port        = local.service_port
+      target_port = local.service_port
     }
 
     type = "ClusterIP"
+  }
+}
+
+data "kubernetes_service_v1" "postfix-service" {
+  metadata {
+    name = kubernetes_service_v1.postfix-service.metadata[0].name
   }
 }
