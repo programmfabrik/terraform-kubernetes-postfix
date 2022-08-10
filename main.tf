@@ -16,6 +16,10 @@ resource "kubernetes_namespace_v1" "postfix" {
 }
 
 resource "kubernetes_secret_v1" "sasl-config" {
+  depends_on = [
+    kubernetes_namespace_v1.postfix,
+  ]
+
   metadata {
     name      = "postgres-${var.name}-sasl-config"
     namespace = var.namespace
@@ -35,6 +39,10 @@ resource "kubernetes_secret_v1" "sasl-config" {
 
 # postfix deployment
 resource "kubernetes_deployment_v1" "postfix" {
+  depends_on = [
+    kubernetes_namespace_v1.postfix,
+  ]
+
   wait_for_rollout = var.wait_for_rollout
 
   metadata {
@@ -167,6 +175,10 @@ resource "kubernetes_deployment_v1" "postfix" {
 }
 
 resource "kubernetes_service_v1" "postfix-service" {
+  depends_on = [
+    kubernetes_namespace_v1.postfix,
+  ]
+
   metadata {
     name      = "postfix-${var.name}"
     namespace = var.namespace
