@@ -21,7 +21,7 @@ module "postfix" {
   postfix_relayhost                    = "smtp.gmail.com:587"
   postfix_myhostname                   = "mail"
   postfix_mynetworks                   = "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-  postfix_smtputf8_enable              = "on"
+  postfix_smtputf8_enable              = "yes"
   postfix_smtp_sasl_auth_enable        = "yes"
   postfix_smtp_sasl_password_maps      = "hash:/etc/postfix/sasl_passwd"
   postfix_smtp_sasl_security_options   = ""
