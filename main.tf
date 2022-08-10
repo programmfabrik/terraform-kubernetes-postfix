@@ -59,6 +59,7 @@ resource "kubernetes_deployment_v1" "postfix" {
         container {
           image = "${var.image_repository}:${var.image_version}"
           name  = "postfix-${var.name}"
+          image_pull_policy = var.image_pull_policy
 
           resources {
             limits = {

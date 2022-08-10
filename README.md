@@ -86,6 +86,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Whether to create the namespace | `bool` | `true` | no |
+| <a name="input_image_pull_policy"></a> [image\_pull\_policy](#input\_image\_pull\_policy) | Defines the image pull policy to use. | `string` | `"Always"` | no |
 | <a name="input_image_repository"></a> [image\_repository](#input\_image\_repository) | The image repository to use | `string` | `"docker.fylr.io/services/postfix"` | no |
 | <a name="input_image_version"></a> [image\_version](#input\_image\_version) | Defines the image version to use. | `string` | `"v1.0.0"` | no |
 | <a name="input_mail_email"></a> [mail\_email](#input\_mail\_email) | n/a | `string` | n/a | yes |
