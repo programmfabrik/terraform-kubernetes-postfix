@@ -45,6 +45,16 @@ variable "image_version" {
   sensitive   = false
 }
 
+variable "image_pull_policy" {
+  type        = string
+  description = "Defines the image pull policy to use."
+  default     = "IfNotPresent"
+  validation {
+    condition     = var.image_pull_policy == "Always" || var.image_pull_policy == "IfNotPresent" || var.image_pull_policy == "Never"
+    error_message = "Invalid image pull policy. Valid values are `Always`, `IfNotPresent` and `Never`."
+  }
+}
+
 variable "resources" {
   type = object({
     limits = object({
@@ -90,10 +100,10 @@ variable "postfix_mynetworks" {
 }
 
 variable "postfix_smtputf8_enable" {
-  type      = string
-  default   = "no"
+  type        = string
+  default     = "no"
   description = "Can be 'yes' or 'no'."
-  sensitive = false
+  sensitive   = false
 }
 
 variable "postfix_smtp_sasl_auth_enable" {
