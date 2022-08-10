@@ -11,7 +11,8 @@ provider "kubernetes" {
 }
 
 module "postfix" {
-  source = "../"
+  source = "programmfabrik/postfix/kubernetes"
+  version = "1.0.0"
 
   name             = "pfx-1"
   namespace        = "postfix"
